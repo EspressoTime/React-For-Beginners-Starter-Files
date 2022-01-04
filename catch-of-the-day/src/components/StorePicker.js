@@ -4,7 +4,6 @@ class StorePicker extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <p>Store Picker</p>
                 {/* React Fragment allows for multiple tags without a div wrapper */}
                 <form className="store-selector">
                     <h2>Select A Store</h2>
