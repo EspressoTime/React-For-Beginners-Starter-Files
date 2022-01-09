@@ -1,6 +1,6 @@
 import React from "react";
 
-// const Header = (props.taglin}) => (
+// const Header = (props.tagline}) => (
 const Header = ({tagline}) => (
         (
         <header className="top">
