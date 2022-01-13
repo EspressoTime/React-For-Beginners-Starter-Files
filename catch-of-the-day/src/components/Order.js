@@ -5,7 +5,10 @@ class Order extends React.Component {
     renderOrder = (key) => {
         const fish = this.props.fishes[key];
         const quantity = this.props.order[key];
-        const isAvailable = fish.status === 'available';
+        const isAvailable = fish && fish.status === 'available';
+
+        // make sure fish is loaded before generating order
+        if (!fish) return null;
         if(!isAvailable){
             return <li key={key}>
                 {fish ? fish.name : 'Fish'} is no longer available :(
