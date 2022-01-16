@@ -50,7 +50,15 @@ class App extends React.Component {
         fishes[key] = updatedFish;
         // set to state
         this.setState({ fishes: fishes });
+    }
 
+    deleteFish = (key) => {
+        // copy current state
+        const fishes = {...this.state.fishes};
+        //  update state (remove item, set to null for firebase)
+        fishes[key] = null;
+        // set to state
+        this.setState({fishes});
     }
 
     loadSampleFishes = () => {
@@ -66,6 +74,12 @@ class App extends React.Component {
         this.setState({ order });
     }
 
+    deleteFromOrder = (key) => {
+        const order = {...this.state.order};
+        delete order[key];
+        this.setState({ order });
+    }
+
     render() {
         return (
             <div className="catch-of-the-day">
@@ -75,8 +89,8 @@ class App extends React.Component {
                         {Object.keys(this.state.fishes).map(key => <Fish key={key} index={key} details={this.state.fishes[key]} addToOrder={this.addToOrder} />)}
                     </ul>
                 </div>
-                <Order fishes={this.state.fishes} order={this.state.order} />
-                <Inventory fishes={this.state.fishes} addFish={this.addFish} updateFish={this.updateFish} loadSampleFishes={this.loadSampleFishes} />
+                <Order fishes={this.state.fishes} order={this.state.order} deleteFromOrder={this.deleteFromOrder} />
+                <Inventory fishes={this.state.fishes} addFish={this.addFish} updateFish={this.updateFish} deleteFish={this.deleteFish} loadSampleFishes={this.loadSampleFishes} />
             </div>
         )
     }
