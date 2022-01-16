@@ -1,25 +1,47 @@
 import React from "react";
-import { formatPrice} from '../helpers' 
+import { formatPrice} from '../helpers' ;
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 class Order extends React.Component {
     renderOrder = (key) => {
         const fish = this.props.fishes[key];
         const quantity = this.props.order[key];
         const isAvailable = fish && fish.status === 'available';
+        const transitionOptions = {
+            classNames: "order",
+            key, 
+            timeout: { enter: 250, exit: 250}
+        }
 
         // make sure fish is loaded before generating order
         if (!fish) return null;
         if(!isAvailable){
-            return <li key={key}>
-                {fish ? fish.name : 'Fish'} is no longer available :(
-            </li>
+            return (
+                <CSSTransition classNames="order" key={key} timeout={{ enter: 250, exit: 250}}>
+                    <li key={key}>
+                        {fish ? fish.name : 'Fish'} is no longer available :(
+                    </li>
+                </CSSTransition>
+            )
         }
 
-        return <li key={key}>
-            {quantity}lbs {fish.name}
-            {formatPrice(quantity * fish.price)}
-            <button onClick={() => this.props.deleteFromOrder(key)}>Delete</button>
-        </li>
+        return ( 
+            <CSSTransition {...transitionOptions}>
+                <li key={key}>
+                    <span>
+                        <TransitionGroup component="span" className="count">
+                            {/* classNames creates count-enter, count-exit, count-enter-active, etc */}
+                            <CSSTransition classNames="count" key={quantity} timeout={{enter: 250, exit: 250}}>
+                                <span>{quantity}</span>
+                            </CSSTransition>
+                        </TransitionGroup>
+                        lbs {fish.name}
+                        {formatPrice(quantity * fish.price)}
+                        <button onClick={() => this.props.deleteFromOrder(key)}>Delete</button>
+                    </span>
+                </li>
+            </CSSTransition>
+        )
     }
 
     render () {
@@ -37,9 +59,9 @@ class Order extends React.Component {
         return (
             <div className="order-wrap">
                 <h2 className="order">Order</h2>
-                <ul className="order">
+                <TransitionGroup component="ul" className="order">
                     {orderIds.map(this.renderOrder)}
-                </ul>           
+                </TransitionGroup>           
                 <div className="total">
                     Total:
                     <strong>{formatPrice(totalCost)}</strong>
