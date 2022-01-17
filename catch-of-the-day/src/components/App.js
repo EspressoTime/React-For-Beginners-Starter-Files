@@ -1,10 +1,12 @@
 import React from "react";
-import Header from "./Header"
-import Order from "./Order"
-import Inventory from "./Inventory"
-import sampleFishes from '../sample-fishes'
-import Fish from "./Fish"
-import base from '../base'
+import Header from "./Header";
+import Order from "./Order";
+import Inventory from "./Inventory";
+import sampleFishes from '../sample-fishes';
+import Fish from "./Fish";
+import base from '../base';
+import PropTypes from "prop-types";
+
 
 class App extends React.Component {
     // set initial state in constructor or property
@@ -13,6 +15,10 @@ class App extends React.Component {
         fishes: {},
         order: {}
     };
+
+    static propTypes = {
+        match: PropTypes.object
+    }
 
     componentDidMount() {
         // first reinstate from localStorage
